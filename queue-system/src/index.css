@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* This forces everything to center if Tailwind misses something */
+body {
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif; /* Fixes the Times New Roman font */
+    background-color: #f3f4f6;
+}
+
+#root {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    text-align: center;
+}
