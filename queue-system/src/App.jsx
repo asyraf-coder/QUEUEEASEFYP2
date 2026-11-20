@@ -27,7 +27,7 @@ const getAIWaitTime = async (count, avgSpeed) => {
   const now = Date.now();
   if (now - lastAiCallTime < 30000) return fallbackMsg;
 
-  const API_KEY = "AIzaSyAFyNf4F16y8liP8eTR3XjHrOA0lVMOG1c";
+  const API_KEY = "";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
   try {
