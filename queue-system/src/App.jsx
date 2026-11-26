@@ -15,40 +15,18 @@ import AdminLogin      from './pages/AdminLogin';
 import AdminDashboard  from './pages/AdminDashboard';
 import queueImage      from './beratur-new.jpg';
 
-// ── AI wait time helper ───────────────────────────────────
-let lastAiCallTime = 0;
-
+// ── Wait time helper ──────────────────────────────────────
+// The Gemini API call was removed for security: an API key placed in
+// frontend code is visible to anyone who opens the page, and a leaked
+// key was reported in this repo (April 2026) and has been deleted.
+// Never put an API key in this file or anywhere in the frontend.
+// If AI estimates are wanted again, call Gemini from a backend /
+// Firebase Function that keeps the key on the server only.
 const getAIWaitTime = async (count, avgSpeed) => {
   const speedDisplay = avgSpeed > 0 ? Math.round(avgSpeed) : 20;
-  const fallbackMsg  = count === 0
+  return count === 0
     ? "You're next! Please be ready. 💈"
     : `Estimated wait: ${count * speedDisplay} minutes. Please stay nearby.`;
-
-  const now = Date.now();
-  if (now - lastAiCallTime < 30000) return fallbackMsg;
-
-  const API_KEY = "";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
-
-  try {
-    lastAiCallTime = now;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `A customer is at Bro Z Barber Shop. There are ${count} people waiting ahead of them. Based on actual performance today, the barber is serving at ${speedDisplay} minutes per person. Provide a 1-sentence friendly estimate. If 0 people are ahead, tell them they are next. Mention local vibes like 'mamak' or 'lepak' to keep it Malaysian.`
-          }]
-        }]
-      })
-    });
-    if (response.status === 429) return fallbackMsg;
-    const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
-  } catch {
-    return fallbackMsg;
-  }
 };
 
 // ── Protected route wrapper ───────────────────────────────
